@@ -18,7 +18,7 @@ export const getAllRestaurantAction = (token) => {
         }
     };
 };
-export const getAllRestaurantByIdRequest = (reqData) => {
+export const getAllRestaurantById= (reqData) => {
     return async (dispatch) => {
         dispatch({ type: GET_RESTAURANT_BY_ID_REQUEST });
         try {

@@ -5,13 +5,20 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Typography, FormControl } from "@mui/material";
 import MenuCard from "./MenuCard";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Store } from "@mui/icons-material";
+import {
+  getAllRestaurantById,
+  getRestaurantCategory,
+} from "../State/Restaurant/Action";
+import { getMenuItemsByRestaurantIdRequest } from "../State/Menu/Action";
 
-const categories = ["pizza", "biryani", "burger", "chicken"];
 const foodTypes = [
   { label: "All", value: "all" },
   { label: "Vegetarian", value: "vegetarian" },
@@ -21,28 +28,48 @@ const foodTypes = [
 const menu = [1, 1, 1, 1, 1, 1];
 const RestaurantDetails = () => {
   const [foodType, setFoodType] = useState("all");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { auth, restaurant, menu } = useSelector((Store) => Store);
+  console.log("restaurant have:", restaurant);
+  const { id, city } = useParams();
   const handleFilter = () => {
     console.log(e.target.value, e.target.name);
   };
+  useEffect(() => {
+    dispatch(getAllRestaurantById({ jwt, restaurantId: id }));
+    dispatch(getRestaurantCategory({ jwt, restaurantId: id }));
+    dispatch(
+      getMenuItemsByRestaurantIdRequest({
+        jwt,
+        restaurantId: id,
+        vegetarian: false,
+        nonveg: false,
+        seasonal: false,
+        foodCategory: "",
+      })
+    );
+  }, []);
   return (
     <div className="px-5 lg:px-20">
       <section>
         <h3 className="text-gray-500 py-2 mt-10">
-          Home/Nepal/Nepalese fast food/3
+          {restaurant.restaurant?.name}
         </h3>
         <div>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://images.pexels.com/photos/750843/pexels-photo-750843.jpeg"
+                src={restaurant.restaurant?.images[1]}
                 alt=""
               />
             </Grid>
             <Grid item xs={12} lg={6}>
               <img
                 className="w-full h-[40vh] object-cover"
-                src="https://images.pexels.com/photos/2079438/pexels-photo-2079438.jpeg"
+                src={restaurant.restaurant?.images[0]}
                 alt=""
               />
             </Grid>
@@ -56,12 +83,11 @@ const RestaurantDetails = () => {
           </Grid>
         </div>
         <div className="pt-3 pb-5">
-          <h1 className="text-4xl font-semibold">Nepali Fast Food.</h1>
+          <h1 className="text-4xl font-semibold">
+            {restaurant.restaurant?.name}
+          </h1>
           <p className="text-gray-500 mt-1">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-            porro laborum cumque commodi placeat recusandae rerum mollitia,
-            minus incidunt reiciendis, ratione necessitatibus quia quaerat
-            adipisci beatae unde consectetur deleniti nisi!
+            {restaurant.restaurant?.description}
           </p>
           <div className="space-y-3 mt-3">
             <p className="text-gray-500 flex items-center gap-3">
@@ -111,12 +137,12 @@ const RestaurantDetails = () => {
                   onChange={handleFilter}
                   value={foodType}
                 >
-                  {categories.map((item) => (
+                  {restaurant.categories.map((item) => (
                     <FormControlLabel
                       key={item}
                       value={item}
                       control={<Radio />}
-                      label={item}
+                      label={item.name}
                     />
                   ))}
                 </RadioGroup>
@@ -125,8 +151,8 @@ const RestaurantDetails = () => {
           </div>
         </div>
         <div className="space-y-5 lg:w-[80%] lg:pl-10">
-          {menu.map((item) => (
-            <MenuCard />
+          {menu.menuItems.map((item) => (
+            <MenuCard item={item} />
           ))}
         </div>
       </section>

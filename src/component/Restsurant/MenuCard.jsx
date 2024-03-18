@@ -21,7 +21,7 @@ const demo = [
   },
 ];
 
-const MenuCard = () => {
+const MenuCard = ({ item }) => {
   const handleCheckboxChange = (value) => {
     console.log(value);
   };
@@ -36,13 +36,13 @@ const MenuCard = () => {
           <div className="lg:flex items-center lg:gap-5">
             <img
               className="w-[7rem] h-[7rem] object-cover"
-              src="https://images.pexels.com/photos/1639565/pexels-photo-1639565.jpeg?auto=compress&cs=tinysrgb&w=600"
+              src={item.images[0]}
               alt=""
             />
             <div className="space-y-1 lg:space-y-5 lg:max-w-2xl">
-              <p className="font-semibold text-xl">Burger</p>
-              <p>₹499</p>
-              <p className="text-gray-400">Nice Food</p>
+              <p className="font-semibold text-xl">{item.name}</p>
+              <p>₹{item.price}</p>
+              <p className="text-gray-400">{item.description}</p>
             </div>
           </div>
         </div>
