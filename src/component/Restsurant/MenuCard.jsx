@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React from "react";
+import { categorizeIngredients } from "../util/CategorizeIngredients";
 
 const demo = [
   {
@@ -50,21 +51,28 @@ const MenuCard = ({ item }) => {
       <AccordionDetails>
         <form>
           <div className="flex gap-5 flex-wrap">
-            {demo.map((item) => (
-              <div>
-                <p>{item.category}</p>
-                <FormGroup>
-                  {item.ingredients.map((item) => (
-                    <FormControlLabel
-                      control={
-                        <Checkbox onChange={() => handleCheckboxChange(item)} />
-                      }
-                      label={item}
-                    />
-                  ))}
-                </FormGroup>
-              </div>
-            ))}
+            {Object.keys(categorizeIngredients(item.ingredients)).map(
+              (category) => (
+                <div>
+                  <p>{category}</p>
+                  <FormGroup>
+                    {categorizeIngredients(item.ingredients)[category].map(
+                      (item) => (
+                        <FormControlLabel
+                          key={item.name}
+                          control={
+                            <Checkbox
+                              onChange={() => handleCheckboxChange(item)}
+                            />
+                          }
+                          label={item.name}
+                        />
+                      )
+                    )}
+                  </FormGroup>
+                </div>
+              )
+            )}
           </div>
           <div className="pt-5">
             <Button variant="contained" disabled={false} type="submit">
