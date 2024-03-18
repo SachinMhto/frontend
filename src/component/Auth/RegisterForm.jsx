@@ -9,7 +9,9 @@ import {
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../State/Authentication/Action";
 
 const initialValues = {
   fullName: "",
@@ -18,10 +20,12 @@ const initialValues = {
   role: "ROLE_CUSTOMER",
 };
 const RegisterForm = () => {
-  const handleSubmit = (values) => {
-    console.log(values);
-  };
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const handleSubmit = (values) => {
+    dispatch(registerUser({ userData: values, navigate }));
+  };
+
   return (
     <div>
       <Typography variant="h5" className="text-center">
