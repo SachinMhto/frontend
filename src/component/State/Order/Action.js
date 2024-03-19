@@ -14,6 +14,7 @@ export const createOrder = (reqData) => {
             //     window.location.href = data.payment_url;
             // }
             dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
+            console.log("order created:",data);
         } catch (error) {
             dispatch({ type: CREATE_ORDER_FAILURE, payload: error });
         }
@@ -23,12 +24,13 @@ export const getUserOrders = (jwt) => {
     return async (dispatch) => {
         dispatch({ type: GET_USERS_OEDERS_REQUEST });
         try {
-            const { data } = await api.get(`/api/order/user`, reqData, {
+            const { data } = await api.get(`/api/order/user`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
                 },
             });
             dispatch({ type: GET_USERS_OEDERS_SUCCESS, payload: data });
+            console.log("Order data:", data);
         } catch (error) {
             dispatch({ type: GET_USERS_OEDERS_FAILURE, payload: error });
         }

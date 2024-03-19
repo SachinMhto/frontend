@@ -12,9 +12,9 @@ import CartItem from "./CartItem";
 import Address from "./Address";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder } from "../State/Order/Action";
 
-const items = [1, 1];
 const style = {
   position: "absolute",
   top: "50%",
@@ -43,11 +43,28 @@ const Cart = () => {
   const handleOpenAddressModel = () => {
     setOpen(true);
   };
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
-  const { cart } = useSelector((store) => store);
+  const { cart, auth } = useSelector((store) => store);
   const handleClose = () => setOpen(false);
-  const handleOnSubmit = (value) => {
-    console.log(value);
+  const handleOnSubmit = (values) => {
+    const data = {
+      jwt: localStorage.getItem("jwt"),
+      order: {
+        restaurantId: cart.cartItems[0].food?.restaurant?.id,
+        deliveryAddress: {
+          fullName: auth.user?.fullName,
+          streetAddress: values.streetAddress,
+          city: values.city,
+          state: values.state,
+          postalCode: values.pincode,
+          country: "Nepal",
+        },
+      },
+    };
+    dispatch(createOrder(data));
+    console.log("restaurantId", cart.cartItems[0].food?.restaurant?.id);
+    console.log("data:", data);
   };
   const totalItemPrice = cart.cartItems.reduce(
     (total, item) => total + item.totalPrice,
