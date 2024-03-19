@@ -49,11 +49,15 @@ const Cart = () => {
   const handleOnSubmit = (value) => {
     console.log(value);
   };
+  const totalItemPrice = cart.cartItems.reduce(
+    (total, item) => total + item.totalPrice,
+    0
+  );
   return (
     <>
       <main className="lg:flex justify-between">
         <section className="lg:w-[30%] space-y-6 lg:min-h-screen pt-10">
-          {cart.cart?.item.map((item) => (
+          {cart.cartItems.map((item) => (
             <CartItem item={item} />
           ))}
           <Divider />
@@ -62,21 +66,21 @@ const Cart = () => {
             <div className="space-y-3">
               <div className="flex justify-between text-gray-400">
                 <p>Item Total</p>
-                <p>$599</p>
+                <p>₹{totalItemPrice}</p>
               </div>
               <div className="flex justify-between text-gray-400">
                 <p>Deliver Fee</p>
-                <p>$20</p>
+                <p>₹20</p>
               </div>
               <div className="flex justify-between text-gray-400">
                 <p>GST and Restaurant Charges</p>
-                <p>$33</p>
+                <p>₹30</p>
               </div>
               <Divider />
             </div>
             <div className="flex justify-between text-gray-400">
               <p>Total Pay</p>
-              <p>$3000</p>
+              <p>₹{totalItemPrice + 30 + 20}</p>
             </div>
           </div>
         </section>

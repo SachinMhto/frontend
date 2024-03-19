@@ -50,13 +50,15 @@ export const updateCartItem = (reqData) => {
     return async (dispatch) => {
         dispatch({ type: UPDATE_CARTITEM_REQUEST });
         try {
-            const {data } = await api.get(`/api/cart-item/update`,reqData.data,{
+            const {data } = await api.put(`/api/cart-item/update`,reqData.data,{
                 headers: {
-                    Authorization: `Bearer ${reqData.token}`,
+                    Authorization: `Bearer ${reqData.jwt}`,
                 },
             });
-            dispatch({ type:UPDATE_CARTITEM_SUCCESS, payload:data});
+              dispatch({ type: UPDATE_CARTITEM_SUCCESS, payload: data });
+            console.log("updated data:",data);
         } catch (error) {
+             console.log("updated data error:",error);
             dispatch({ type:UPDATE_CARTITEM_FAILURE, payload: error });
         }
     };
@@ -67,9 +69,10 @@ export const removeCartItem = ({ cartItemId,jwt}) => {
         try {
             const { data} = await api.delete(`/api/cart-item/${cartItemId}/remove`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${jwt}`,
                 },
             });
+            console.log("remove data", data);
             dispatch({ type:REMOVE_CARTITEM_SUCCESS, payload:data});
         } catch (error) {
             dispatch({ type:REMOVE_CARTITEM_FAILURE, payload: error });
