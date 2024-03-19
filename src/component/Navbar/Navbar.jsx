@@ -7,9 +7,10 @@ import "./Navbar.css";
 import { Person } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Cart from "../Cart/Cart";
 
 export const Navbar = () => {
-  const { auth } = useSelector((store) => store);
+  const { auth, cart } = useSelector((store) => store);
   const navigate = useNavigate();
   const handleOnClick = () => {
     if (auth.user?.role === "ROLE_CUSTOMER") {
@@ -48,8 +49,8 @@ export const Navbar = () => {
             </IconButton>
           )}
         </div>
-        <IconButton>
-          <Badge color="secondary" badgeContent={3}>
+        <IconButton onClick={() => navigate("/cart")}>
+          <Badge color="secondary" badgeContent={cart.cart?.item.length}>
             <ShoppingCartIcon sx={{ fontSize: "1.5rem" }} />
           </Badge>
         </IconButton>

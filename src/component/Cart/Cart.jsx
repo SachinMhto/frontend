@@ -12,6 +12,7 @@ import CartItem from "./CartItem";
 import Address from "./Address";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useSelector } from "react-redux";
 
 const items = [1, 1];
 const style = {
@@ -43,6 +44,7 @@ const Cart = () => {
     setOpen(true);
   };
   const [open, setOpen] = React.useState(false);
+  const { cart } = useSelector((store) => store);
   const handleClose = () => setOpen(false);
   const handleOnSubmit = (value) => {
     console.log(value);
@@ -51,8 +53,8 @@ const Cart = () => {
     <>
       <main className="lg:flex justify-between">
         <section className="lg:w-[30%] space-y-6 lg:min-h-screen pt-10">
-          {items.map((item) => (
-            <CartItem />
+          {cart.cart?.item.map((item) => (
+            <CartItem item={item} />
           ))}
           <Divider />
           <div className="billDetails px-5 text-sm">
