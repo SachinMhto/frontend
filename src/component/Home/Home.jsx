@@ -4,16 +4,13 @@ import MultiItemCarousel from "./MultiItemCarousel";
 import RestaurantCard from "../Restsurant/RestaurantCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRestaurantAction } from "../State/Restaurant/Action";
-
-const restaurants = [1, 1, 1, 1, 1, 1, 1, 1];
-
 const Home = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { restaurant } = useSelector((store) => store);
+  const { restaurant, auth } = useSelector((store) => store);
   useEffect(() => {
     dispatch(getAllRestaurantAction(jwt));
-  }, []);
+  }, [auth.user]);
   return (
     <div className="pb-10">
       <section className="banner -z-50 relative flex flex-col justify-center items-center">

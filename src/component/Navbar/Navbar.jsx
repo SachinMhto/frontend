@@ -10,7 +10,8 @@ import { useSelector } from "react-redux";
 import Cart from "../Cart/Cart";
 
 export const Navbar = () => {
-  const { auth, cart } = useSelector((store) => store);
+  const { auth, cart, restaurant } = useSelector((store) => store);
+  console.log("restaurant:", cart);
   const navigate = useNavigate();
   const handleOnClick = () => {
     if (auth.user?.role === "ROLE_CUSTOMER") {
@@ -50,7 +51,7 @@ export const Navbar = () => {
           )}
         </div>
         <IconButton onClick={() => navigate("/cart")}>
-          <Badge color="secondary" badgeContent={cart.cart?.item.length}>
+          <Badge color="secondary" badgeContent={cart.cartItems.length}>
             <ShoppingCartIcon sx={{ fontSize: "1.5rem" }} />
           </Badge>
         </IconButton>

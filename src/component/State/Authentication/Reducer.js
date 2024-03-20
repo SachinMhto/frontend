@@ -7,7 +7,7 @@ const initialState = {
     error: null,
     jwt: null,
     favourites: [],
-    success: null
+    success:"",
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -19,23 +19,26 @@ export const authReducer = (state = initialState, action) => {
             return { ...state, isLoading: true, error: null, success: null };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            return { ...state, isLoading: false, jwt: action.payload, success: "Register Success", };
+            return { ...state, isLoading: false, jwt: action.payload, };
         case GET_USER_SUCCESS:
-            return { ...state, isLoading: false, user: action.payload,favourites: action.payload.favourites};
+            return { ...state, isLoading: false, user: action.payload, favourites: action.payload.favourites, success: "Login Success", };
         case ADD_TO_FAVOURITE_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 error: null,
-                favourites: isPresentInFavourites(state.favourites, action.payload) ? state.favourites.filter((item) => item.id!== action.payload.id) : [action.payload,...state.favourites],
+                favourites: isPresentInFavourites(state.favourites, action.payload) ? state.favourites.filter((item) => item.id !== action.payload.id) : [action.payload, ...state.favourites],
             };
         case LOGOUT:
-            return initialState;
+            return {...initialState
+    };
         case REGISTER_FAILURE:
         case LOGIN_FAILURE:
         case GET_USER_FAILURE:
         case ADD_TO_FAVOURITE_FAILURE:
             return { ...state, isLoading: false, error: action.payload, success: null };
+        case LOGIN_FAILURE:
+             return { ...state, isLoading: false, error: action.payload, success: "Email or password is wrong" };
         default:
             return state;
     }

@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../State/Authentication/Action";
 
@@ -25,6 +25,8 @@ const RegisterForm = () => {
   const handleSubmit = (values) => {
     dispatch(registerUser({ userData: values, navigate }));
   };
+  const { auth } = useSelector((store) => store);
+  console.log("auth", auth);
 
   return (
     <div>
@@ -36,27 +38,31 @@ const RegisterForm = () => {
           <Field
             as={TextField}
             name="fullName"
-            label="fullName"
+            label="FullName"
             fullWidth
             variant="outlined"
             margin="normal"
+            placeholder="Enter your full name"
+            required
           />
           <Field
             as={TextField}
             name="email"
-            label="email"
+            label="Email"
             fullWidth
             variant="outlined"
             margin="normal"
+            required
           />
           <Field
             as={TextField}
             name="password"
-            label="password"
+            label="Password"
             fullWidth
             variant="outlined"
             margin="normal"
             type="password"
+            required
           />
 
           <Field
@@ -66,6 +72,7 @@ const RegisterForm = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             name="role"
+            required
             //   value={age}
             //   onChange={handleChange}
           >
@@ -81,7 +88,7 @@ const RegisterForm = () => {
             type="submit"
             variant="contained"
           >
-            register
+            Register
           </Button>
         </Form>
       </Formik>

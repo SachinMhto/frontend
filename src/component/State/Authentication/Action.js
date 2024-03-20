@@ -11,7 +11,7 @@ export const registerUser = (reqData) => async (dispatch) => {
         if (data.role === "ROLE_RESTAURANT_OWNER") {
             reqData.navigate("/account/login");
         } else {
-            reqData.navigate("/");
+            reqData.navigate("/account/login");
         }
         dispatch({ type: REGISTER_SUCCESS, payload: data.jwt })
         console.log("Register success");
@@ -26,16 +26,20 @@ export const loginUser = (reqData) => async (dispatch) => {
     try {
         const { data } = await axios.post(`${API_URL}/auth/signin`, reqData.userData)
         if (data.jwt) localStorage.setItem("jwt", data.jwt);
-        if (data.role === "ROLE_RESTAURANT_OWNER") {
-            reqData.navigate("/admin/restaurant");
-        } else {
-            reqData.navigate("/");
-        }
-        dispatch({ type: LOGIN_SUCCESS, payload: data.jwt })
+         dispatch({ type: LOGIN_SUCCESS, payload: data.jwt })
+        setTimeout(() => {
+            if (data.role === "ROLE_RESTAURANT_OWNER") {
+                reqData.navigate("/admin/restaurant");
+            } else {
+                reqData.navigate("/");
+            }
+        }, 3000);
+       
         console.log(data.jwt)
     } catch (error) {
-        dispatch({ type: LOGIN_FAILURE, payload: error });
-        console.log("error:", error);
+        const er = "Email or Password didnot match";
+        dispatch({ type: LOGIN_FAILURE, payload: er });
+        console.log("login error:", error);
     };
 };
 export const getUser = (jwt) => async (dispatch) => {
@@ -71,7 +75,8 @@ export const addToFavourite = ({ restaurantId,jwt }) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
     try {
         localStorage.clear();
-        dispatch({ type: LOGOUT })
+        const msg = "Log out success";
+        dispatch({ type: LOGOUT,payload:msg })
         console.log("Log out");
     } catch (error) {
         console.log("error:", error);

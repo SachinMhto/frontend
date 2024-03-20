@@ -26,12 +26,33 @@ const cartReducer = (state = initialState, action) => {
                 cart: action.payload,
                 cartItems: action.payload.item,
             };
-        case actionType.ADD_ITEM_TO_CART_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                cartItems: [action.payload, ...state.cartItems],
-            };
+      case actionType.ADD_ITEM_TO_CART_SUCCESS:
+  const newItem = action.payload; // Newly added item received from the payload
+  const existingItemIndex = state.cartItems.findIndex(item => item.food.id === newItem.food.id);
+
+  if (existingItemIndex !== -1) {
+    // If the item already exists in the cart, update its quantity and price
+    const updatedCartItems = state.cartItems.map((item, index) => {
+      if (index === existingItemIndex) {
+        return { ...item, quantity: newItem.quantity, totalPrice: newItem.totalPrice }; // Set the quantity and price from the payload
+      }
+      return item;
+    });
+
+    return {
+      ...state,
+      loading: false,
+      cartItems: updatedCartItems,
+    };
+  } else {
+    // If the item is new to the cart, add it to the existing items
+    return {
+      ...state,
+      loading: false,
+      cartItems: [...state.cartItems, newItem],
+    };
+  }
+
        case actionType.UPDATE_CARTITEM_SUCCESS:
     const updatedItem = action.payload; // Assuming the payload contains the updated item data
 
