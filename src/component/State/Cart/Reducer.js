@@ -77,11 +77,12 @@ const cartReducer = (state = initialState, action) => {
     
 
         case actionType.REMOVE_CARTITEM_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                cartItems: state.cartItems.filter((item) => item.id == action.payload),
-            };
+  return {
+    ...state,
+    loading: false,
+    cartItems: action.payload.item,
+  };
+
         case actionType.FIND_CART_FAILURE:
         case actionType.UPDATE_CARTITEM_FAILURE:
         case actionType.REMOVE_CARTITEM_FAILURE:
@@ -95,6 +96,10 @@ const cartReducer = (state = initialState, action) => {
             return {
                 ...state, cartItems: [], cart: null, success: "Logout successfully"
             };
+        case actionType.ORDER_SUCCESS:
+            return {
+                ...state,cartItems:[],
+            }
         default:
             return state;
     }

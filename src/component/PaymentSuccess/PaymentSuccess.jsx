@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { green } from "@mui/material/colors";
 import { Button, Card } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { clearCartAction } from "../State/Cart/Action";
+import { useDispatch } from "react-redux";
 
 const PaymentSuccess = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearCartAction());
+    console.log("running...");
+  }, []);
   const navigate = useNavigate();
   return (
     <div className="min-h-screen px-5">

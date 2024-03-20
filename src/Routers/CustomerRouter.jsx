@@ -7,6 +7,7 @@ import Cart from "../component/Cart/Cart";
 import Profile from "../component/Profile/Profile";
 import Auth from "../component/Auth/Auth";
 import PaymentSuccess from "../component/PaymentSuccess/PaymentSuccess";
+import Footer from "../component/Footer/Footer";
 
 const CustomerRouter = () => {
   return (
@@ -24,6 +25,7 @@ const CustomerRouter = () => {
         <Route path="/payment/success/:id" element={<PaymentSuccess />} />
       </Routes>
       <Auth />
+      <Footer />
     </div>
   );
 };

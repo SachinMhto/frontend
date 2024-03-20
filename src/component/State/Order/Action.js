@@ -1,5 +1,6 @@
 import { CREATE_ORDER_FAILURE, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, GET_USERS_NOTIFICATION_REQUEST, GET_USERS_OEDERS_FAILURE, GET_USERS_OEDERS_REQUEST, GET_USERS_OEDERS_SUCCESS } from "./ActionType";
 import { api } from "../../Config/Api";
+import { CLEARE_CART_SUCCESS, ORDER_SUCCESS } from "../Cart/ActionType";
 
 export const createOrder = (reqData) => {
     return async (dispatch) => {
@@ -10,9 +11,10 @@ export const createOrder = (reqData) => {
                     Authorization: `Bearer ${reqData.jwt}`,
                 },
             });
-            // if (data.payment_url) { 
-            //     window.location.href = data.payment_url;
-            // }
+            if (data.payment_url) { 
+                window.location.href = data.payment_url;
+                dispatch({type:ORDER_SUCCESS });
+            }
             dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
             console.log("order created:",data);
         } catch (error) {

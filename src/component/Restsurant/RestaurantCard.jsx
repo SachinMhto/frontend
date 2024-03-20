@@ -41,7 +41,7 @@ const RestaurantCard = ({ item }) => {
         <div className="space-y-1">
           <p
             onClick={handleNavigateToRestaurant}
-            className="font-semibold text-lg cursor-pointer"
+            className="font-semibold text-lg cursor-pointer transition duration-300 ease-in-out hover:text-blue-500"
           >
             {item.name}
           </p>
@@ -50,7 +50,7 @@ const RestaurantCard = ({ item }) => {
         <div>
           <IconButton onClick={handleAddToFavourite}>
             {isPresentInFavourites(auth.favourites, item) ? (
-              <FavoriteIcon />
+              <FavoriteIcon className="text-red-600" />
             ) : (
               <FavoriteBorderIcon />
             )}
