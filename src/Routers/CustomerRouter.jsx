@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar } from "../component/Navbar/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "../component/Home/Home";
 import RestaurantDetails from "../component/Restsurant/RestaurantDetails";
 import Cart from "../component/Cart/Cart";
@@ -10,6 +10,12 @@ import PaymentSuccess from "../component/PaymentSuccess/PaymentSuccess";
 import Footer from "../component/Footer/Footer";
 
 const CustomerRouter = () => {
+  const location = useLocation();
+  const excludeNavbarPaths = ["/my-profile/", "/my-profile", "/cart"];
+
+  const shouldRenderFooter = !excludeNavbarPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
   return (
     <div>
       <Navbar />
@@ -25,7 +31,7 @@ const CustomerRouter = () => {
         <Route path="/payment/success/:id" element={<PaymentSuccess />} />
       </Routes>
       <Auth />
-      <Footer />
+      {shouldRenderFooter && <Footer />}
     </div>
   );
 };

@@ -12,7 +12,9 @@ const OrderCard = ({ item, order }) => {
         </div>
       </div>
       <div>
-        <Button className="cursor-not-allowed">{order.orderStatus}</Button>
+        <Button style={{ color: "green" }} className="cursor-not-allowed">
+          {order.orderStatus}
+        </Button>
       </div>
     </Card>
   );
