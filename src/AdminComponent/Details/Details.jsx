@@ -1,7 +1,13 @@
 import React from "react";
+import DetailsTable from "./DetailsTable";
+import { Grid } from "@mui/material";
 
 const Details = () => {
-  return <div>Details</div>;
+  return (
+    <>
+      <DetailsTable />
+    </>
+  );
 };
 
 export default Details;

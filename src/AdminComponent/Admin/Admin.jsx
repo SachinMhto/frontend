@@ -8,6 +8,8 @@ import Ingredients from "../Ingredients/Ingredients";
 import FoodCategory from "../FoodCategory/FoodCategory";
 import Events from "../Events/Events";
 import Details from "../Details/Details";
+import { DetailsSharp } from "@mui/icons-material";
+import DetailsTable from "../Details/DetailsTable";
 
 const Admin = () => {
   const handleClose = () => {};
@@ -23,7 +25,7 @@ const Admin = () => {
             <Route path="/ingredients" element={<Ingredients />} />
             <Route path="/category" element={<FoodCategory />} />
             <Route path="/events" element={<Events />} />
-            <Route path="/details" element={<Details />} />
+            <Route path="/details" element={<DetailsTable />} />
           </Routes>
         </div>
       </div>
