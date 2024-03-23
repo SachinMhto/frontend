@@ -10,6 +10,7 @@ import Events from "../Events/Events";
 import Details from "../Details/Details";
 import { DetailsSharp } from "@mui/icons-material";
 import DetailsTable from "../Details/DetailsTable";
+import CreateMenuForm from "../Menu/CreateMenuForm";
 
 const Admin = () => {
   const handleClose = () => {};
@@ -26,6 +27,7 @@ const Admin = () => {
             <Route path="/category" element={<FoodCategory />} />
             <Route path="/events" element={<Events />} />
             <Route path="/details" element={<DetailsTable />} />
+            <Route path="/add-menu" element={<CreateMenuForm />} />
           </Routes>
         </div>
       </div>

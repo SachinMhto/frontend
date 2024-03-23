@@ -4,6 +4,7 @@ import {
   CardActions,
   CardHeader,
   IconButton,
+  Modal,
   Paper,
   Table,
   TableBody,
@@ -12,22 +13,37 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import MiniCreateIngredientCategory from "./MiniCreateIngredientCategory";
 const orders = [1, 1, 1, 1, 1];
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const IngredientCategoryTable = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <Box>
       <Card className="mt-1">
         <CardHeader
           action={
-            <IconButton aria-label="settings">
+            <IconButton onClick={handleOpen} aria-label="settings">
               <AddCircleIcon />
             </IconButton>
           }
-          title={"Food Category"}
+          title={"Ingredients Category"}
           sx={{ pt: 2, alignItems: "center" }}
         />
 
@@ -56,6 +72,16 @@ const IngredientCategoryTable = () => {
           </Table>
         </TableContainer>
       </Card>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <MiniCreateIngredientCategory />
+        </Box>
+      </Modal>
     </Box>
   );
 };

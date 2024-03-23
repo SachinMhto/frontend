@@ -15,15 +15,20 @@ import {
 import React from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useNavigate } from "react-router-dom";
 const orders = [1, 1, 1, 1, 1];
 
 const MenuTable = () => {
+  const navigate = useNavigate();
   return (
     <Box>
       <Card className="mt-1">
         <CardHeader
           action={
-            <IconButton aria-label="settings">
+            <IconButton
+              onClick={() => navigate("/admin/restaurants/add-menu")}
+              aria-label="settings"
+            >
               <AddCircleIcon />
             </IconButton>
           }

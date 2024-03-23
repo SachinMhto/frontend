@@ -19,20 +19,7 @@ const menu = [
   { title: "Payments", icon: <AccountBalanceWalletIcon /> },
   { title: "Notification", icon: <NotificationsIcon /> },
   { title: "Events", icon: <EventIcon /> },
-  {
-    title: (
-      <Typography
-        sx={{ color: "red" }}
-        className=" hover:text-blue-700 duration-300"
-        variant="body1"
-      >
-        Logout
-      </Typography>
-    ),
-    icon: (
-      <LogoutIcon className="text-red-600  hover:text-blue-700 duration-300 " />
-    ),
-  },
+  { title: "Logout", icon: <LogoutIcon /> },
 ];
 const ProfileNavigation = ({ open, handleClose }) => {
   const isSmallScreen = useMediaQuery("(max-width:900px)");
