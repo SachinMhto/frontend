@@ -18,6 +18,7 @@ export const authReducer = (state = initialState, action) => {
         case ADD_TO_FAVOURITE_REQUEST:
             return { ...state, isLoading: true, error: null, success: null };
         case REGISTER_SUCCESS:
+            return { ...state, isLoading: false, jwt: action.payload,success:null };
         case LOGIN_SUCCESS:
             return { ...state, isLoading: false, jwt: action.payload, };
         case GET_USER_SUCCESS:

@@ -8,8 +8,10 @@ const Home = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { restaurant, auth } = useSelector((store) => store);
+  console.log("Auth msg:", auth.user);
   useEffect(() => {
     dispatch(getAllRestaurantAction(jwt));
+    console.log("running........");
   }, [auth.user]);
   return (
     <div className="pb-10">

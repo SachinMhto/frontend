@@ -1,3 +1,4 @@
+import { LOGOUT } from "../Authentication/ActionType";
 import { CREATE_CATEGORY_FAILURE, CREATE_CATEGORY_REQUEST, CREATE_CATEGORY_SUCCESS, CREATE_EVENT_FAILURE, CREATE_EVENT_SUCCESS, CREATE_RESTAURANT_FAILURE, CREATE_RESTAURANT_REQUEST, CREATE_RESTAURANT_SUCCESS, DELETE_EVENTS_SUCCESS, DELETE_RESTAURANT_FAILURE, DELETE_RESTAURANT_REQUEST, DELETE_RESTAURANT_SUCCESS, GET_ALL_EVENT_SUCCESS, GET_ALL_RESTAURANTS_FAILURE, GET_ALL_RESTAURANTS_REQUEST, GET_ALL_RESTAURANTS_SUCCESS, GET_RESTAURANT_BY_ID_FAILURE, GET_RESTAURANT_BY_ID_REQUEST, GET_RESTAURANT_BY_ID_SUCCESS, GET_RESTAURANT_BY_USER_ID_SUCCESS, GET_RESTAURANT_CATEGORY_FAILURE, GET_RESTAURANT_CATEGORY_REQUEST, GET_RESTAURANT_CATEGORY_SUCCESS, GET_RESTAURANT_EVENTS_SUCCESS, UPDATE_RESTAURANT_FAILURE, UPDATE_RESTAURANT_REQUEST, UPDATE_RESTAURANT_STATUS_SUCCESS, UPDATE_RESTAURANT_SUCCESS } from "./ActionType";
 const initialvalues = {
     restaurants: [],
@@ -8,6 +9,7 @@ const initialvalues = {
     events: [],
     restaurantsEvents: [],
     categories: [],
+    msg:"",
 };
 const restaurantReducer = (state = initialvalues, action) => {
     switch (action.type) {
@@ -27,7 +29,8 @@ const restaurantReducer = (state = initialvalues, action) => {
             return {
                 ...state,
                 loading: false,
-                usersRestaurant: action.payload
+                usersRestaurant: action.payload,
+                msg:"created successfully",
             };
         case GET_ALL_RESTAURANTS_SUCCESS:
             return {
@@ -106,6 +109,10 @@ const restaurantReducer = (state = initialvalues, action) => {
                 ...state,
                 loading: false,
                 error: action.payload,
+            };
+        case LOGOUT:
+            return {
+                ...initialvalues
             };
         default:
             return state;

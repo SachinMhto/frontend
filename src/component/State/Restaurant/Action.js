@@ -51,18 +51,20 @@ export const getAllRestaurantByUserId = (jwt) => {
     };
 };
 
-export const createRestaurant = (reqData) => {
+export const createRestaurant = (reqData,navigate) => {
     return async (dispatch) => {
         dispatch({ type: CREATE_RESTAURANT_REQUEST });
         try {
             const { data } = await api.post(`api/admin/restaurants`, reqData.data, {
                 headers: {
-                    Authorization: `Bearer ${reqData.token}`,
+                    Authorization: `Bearer ${reqData.jwt}`,
                 },
             });
             dispatch({ type: CREATE_RESTAURANT_SUCCESS });
             console.log("created restro:", data);
+            navigate("/");
         } catch (error) {
+             console.log("error:", error);
             dispatch({ type: CREATE_RESTAURANT_FAILURE, payload: error })
         }
     };
@@ -102,7 +104,7 @@ export const updateRestaurantStatus = ({ restaurantId,jwt}) => {
     return async (dispatch) => {
         dispatch({ type:UPDATE_RESTAURANT_STATUS_REQUEST});
         try {
-            const res = await api.put(`api/admin/restaurant/${restaurantId}/status`, {},{
+            const res = await api.put(`api/admin/restaurants/${restaurantId}/status`, {},{
                 headers: {
                     Authorization: `Bearer ${jwt}`,
                 },

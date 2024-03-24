@@ -9,7 +9,7 @@ export const registerUser = (reqData) => async (dispatch) => {
         const { data } = await axios.post(`${API_URL}/auth/signup`, reqData.userData)
         if (data.jwt) localStorage.setItem("jwt", data.jwt);
         if (data.role === "ROLE_RESTAURANT_OWNER") {
-            reqData.navigate("/admin/restaurants");
+            reqData.navigate("/account/login");
         } else {
             reqData.navigate("/account/login");
         }
@@ -72,11 +72,12 @@ export const addToFavourite = ({ restaurantId,jwt }) => async (dispatch) => {
         console.log("error:", error);
     };
 };
-export const logout = () => async (dispatch) => {
+export const logout = (reqData) => async (dispatch) => {
     try {
         localStorage.clear();
         const msg = "Log out success";
-        dispatch({ type: LOGOUT,payload:msg })
+        dispatch({ type: LOGOUT, payload: msg })
+        reqData.navigate("/");
         console.log("Log out");
     } catch (error) {
         console.log("error:", error);

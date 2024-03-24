@@ -4,7 +4,7 @@ import { api } from "../../Config/Api";
 export const getIngredientsOfRestaurant = ({ id,jwt}) => {
     return async (dispatch) => {
         try {
-            const response= await api.get(`/api/admin/ingredients/restaurant/${id}`, reqData, {
+            const response= await api.get(`/api/admin/ingredients/restaurant/${id}`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
                 },
@@ -23,7 +23,7 @@ export const createIngredient = ({ data,jwt}) => {
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-            dispatch({ type:CREATE_INGREDIENT_SUCCESS, payload:response.data });
+            dispatch({ type: CREATE_INGREDIENT_SUCCESS, payload: response.data });
         } catch (error) {
              console.log("error is:", error);
         }
@@ -37,7 +37,8 @@ export const createIngredietsCategory = ({ data,jwt}) => {
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-            dispatch({ type:CREATE_INGREDIENT_CATEGORY_SUCCESS, payload:response.data});
+            dispatch({ type: CREATE_INGREDIENT_CATEGORY_SUCCESS, payload: response.data });
+            console.log("ingredients:",response);
         } catch (error) {
            console.log("error is:", error);
         }
@@ -57,7 +58,8 @@ export const getIngredientCategory = ({id,jwt }) => {
         }
     };
 };
-export const updateStockIngredient = ({id,jwt }) => {
+export const updateStockIngredient = ({ id, jwt }) => {
+    console.log("id is:",id);
     return async (dispatch) => {
         try {
             const { data } = await api.put(`/api/admin/ingredients/${id}/stoke`, {}, {
@@ -65,7 +67,8 @@ export const updateStockIngredient = ({id,jwt }) => {
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-            dispatch({ type:UPDATE_STOCK, payload:data });
+            dispatch({ type: UPDATE_STOCK, payload: data });
+            console.log("updated",data);
         } catch (error) {
            console.log("error is:", error);
         }
