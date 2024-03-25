@@ -13,10 +13,13 @@ import {
   TextField,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CloseIcon from "@mui/icons-material/Close";
 import { uploadImageToCloudnary } from "../Util/UploadToCloudnary";
+import { useDispatch, useSelector } from "react-redux";
+import { createMenuItem } from "../../component/State/Menu/Action";
+import { getIngredientCategory } from "../../component/State/Ingredients/Action";
 const initialValues = {
   name: "",
   description: "",
@@ -30,19 +33,16 @@ const initialValues = {
 };
 
 const CreateMenuForm = () => {
+  const dispatch = useDispatch();
+  const { restaurant, ingredients } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
   const [uploadImage, setUploadImage] = useState(false);
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
       values.restaurantId = 2;
+      dispatch(createMenuItem({ menu: values, jwt }));
       console.log("data....:", values);
-    },
-    validate: (values) => {
-      const errors = {};
-      if (!/^\d{10}$/.test(values.mobile)) {
-        errors.mobile = "Mobile number must be 10 digits long.";
-      }
-      return errors;
     },
   });
   const handleImageChange = async (e) => {
@@ -57,11 +57,9 @@ const CreateMenuForm = () => {
     updatedImages.splice(index, 1);
     formik.setFieldValue("images", updatedImages);
   };
-  const handleMobileChange = (event) => {
-    const { value } = event.target;
-    const mobile = value.replace(/\D/g, ""); // Remove non-numeric characters
-    formik.setFieldValue("mobile", mobile);
-  };
+  useEffect(() => {
+    dispatch(getIngredientCategory({ jwt, id: restaurant.usersRestaurant.id }));
+  }, []);
   return (
     <div className="py-10 px-5 lg:flex items-center justify-center min-h-screen">
       <div className="lg:max-w-4xl">
@@ -159,9 +157,9 @@ const CreateMenuForm = () => {
                   onChange={formik.handleChange}
                   name="category"
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {restaurant.categories?.map((item) => (
+                    <MenuItem value={item}>{item.name}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -187,15 +185,15 @@ const CreateMenuForm = () => {
                   renderValue={(selected) => (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                       {selected.map((value) => (
-                        <Chip key={value} label={value} />
+                        <Chip key={value.id} label={value.name} />
                       ))}
                     </Box>
                   )}
                   //   MenuProps={MenuProps}
                 >
-                  {["bread", "sausage", "sachin"].map((name, index) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
+                  {ingredients.ingredients?.map((item, index) => (
+                    <MenuItem key={item.name} value={item}>
+                      {item.name}
                     </MenuItem>
                   ))}
                 </Select>

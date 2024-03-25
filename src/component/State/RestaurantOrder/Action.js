@@ -5,7 +5,7 @@ export const updateOrderStatus = ({ orderId, orderStatus, jwt }) => {
     return async (dispatch) => {
         dispatch({ type: UPDATE_ORDER_STATUS_REQUEST });
         try {
-            const response = await api.post(`/api/admin/orders/${orderId}/${orderStatus}`, {}, {
+            const response = await api.put(`/api/admin/order/${orderId}/${orderStatus}`, {}, {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
                 },
@@ -14,6 +14,7 @@ export const updateOrderStatus = ({ orderId, orderStatus, jwt }) => {
             dispatch({ type: UPDATE_ORDER_STATUS_SUCCESS, payload: updateOrder });
         } catch (error) {
             dispatch({ type: UPDATE_ORDER_STATUS_FAILURE, payload: error });
+            console.log("error",error);
         }
     };
 };

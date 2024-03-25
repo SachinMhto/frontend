@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Box, Button, Grid, Modal, TextField } from "@mui/material";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+import { createEventAction } from "../../component/State/Restaurant/Action";
 
 const style = {
   position: "absolute",
@@ -22,6 +24,8 @@ const initialValues = {
 };
 
 const Events = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
   function formatDateTime(dateTimeStr) {
     const date = new Date(dateTimeStr);
     const formattedDateTime = dayjs(date).format("MMMM DD, YYYY hh:mm A");
@@ -40,6 +44,13 @@ const Events = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Data:", formValues);
+    dispatch(
+      createEventAction({
+        data: formValues,
+        restaurantId: restarant.usersRestaurant?.id,
+        jwt,
+      })
+    );
     setFormValues(initialValues);
     document.getElementById("startDateTime").value = "";
     document.getElementById("endDateTime").value = "";
